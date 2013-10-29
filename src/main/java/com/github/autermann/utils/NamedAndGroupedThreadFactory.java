@@ -44,18 +44,19 @@ public class NamedAndGroupedThreadFactory implements ThreadFactory {
         this.group = Preconditions.checkNotNull(group);
         this.nameFormat = Preconditions.checkNotNull(nameFormat);
         Preconditions.checkArgument(priority >= Thread.MIN_PRIORITY ||
-                                    priority <= Thread.MAX_PRIORITY, "invalid priority: %d", priority);
+                                    priority <= Thread.MAX_PRIORITY,
+                                    "invalid priority: %d", priority);
         this.priority = priority;
-        Preconditions
-                .checkArgument(stackSize >= 0, "invalid stacksize: %d", stackSize);
+        Preconditions.checkArgument(stackSize >= 0,
+                                    "invalid stacksize: %d", stackSize);
         this.stackSize = stackSize;
         this.eh = eh;
     }
 
     @Override
     public Thread newThread(Runnable r) {
-        final String name = String.format(nameFormat, threadNumber
-                .getAndIncrement());
+        final String name = String.format(nameFormat,
+                                          threadNumber.getAndIncrement());
         final Thread t = new Thread(group, r, name, stackSize);
         t.setDaemon(daemon);
         t.setPriority(priority);
