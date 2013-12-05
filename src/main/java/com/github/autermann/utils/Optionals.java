@@ -23,23 +23,46 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 /**
- * TODO JavaDoc
+ * Utility functions for {@link Optional}s.
  *
- * @author Christian Autermann <autermann@uni-muenster.de>
+ * @author Christian Autermann
  */
 public class Optionals {
 
     private Optionals() {
     }
 
+    /**
+     * A {@link Predicate} to check if a {@link Optional} is present.
+     *
+     * @param <T> the type of the {@link Optional}
+     *
+     * @return the predicate
+     */
     public static <T> Predicate<Optional<? extends T>> isPresent() {
         return IsPresent.instance().withNarrowedType();
     }
 
+    /**
+     * A {@link Predicate} to check if any of the supplied {@link Optional}s
+     * is present.
+     *
+     * @param <T> the type of the {@link Optional}
+     *
+     * @return the predicate
+     */
     public static <T> boolean any(Optional<? extends T>... optionals) {
         return Iterables.any(Arrays.asList(optionals), isPresent());
     }
 
+    /**
+     * A {@link Predicate} to check if all of the supplied {@link Optional}s are
+     * present.
+     *
+     * @param <T> the type of the {@link Optional}
+     *
+     * @return the predicate
+     */
     public static <T> boolean all(Optional<? extends T>... optionals) {
         return Iterables.all(Arrays.asList(optionals), isPresent());
     }
@@ -55,12 +78,22 @@ public class Optionals {
             return input.isPresent();
         }
 
+        /**
+         * Casts this predicate to a specific type.
+         *
+         * @param <T> the type
+         *
+         * @return {@code this}
+         */
         @SuppressWarnings(value = "unchecked")
         public <T> Predicate<Optional<? extends T>> withNarrowedType() {
             Object that = this;
             return (Predicate<Optional<? extends T>>) that;
         }
 
+        /**
+         * @return the singleton instance
+         */
         public static IsPresent instance() {
             return INSTANCE;
         }

@@ -23,9 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.common.base.Preconditions;
 
 /**
- * TODO JavaDoc
+ * Thread factory that creates named and grouped threads.
  *
- * @author Christian Autermann <autermann@uni-muenster.de>
+ * @author Christian Autermann
  */
 public class NamedAndGroupedThreadFactory implements ThreadFactory {
     private final AtomicInteger threadNumber = new AtomicInteger(1);
@@ -66,10 +66,18 @@ public class NamedAndGroupedThreadFactory implements ThreadFactory {
         return t;
     }
 
+    /**
+     * Creates a new builder.
+     *
+     * @return the builder
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Builder for thread factories.
+     */
     public static class Builder {
         private static final AtomicInteger poolNumber = new AtomicInteger(1);
         private String name;
@@ -81,11 +89,25 @@ public class NamedAndGroupedThreadFactory implements ThreadFactory {
         private Builder() {
         }
 
+        /**
+         * Names the thread groups.
+         *
+         * @param name the name
+         *
+         * @return {@code this}
+         */
         public Builder name(String name) {
             this.name = Preconditions.checkNotNull(name);
             return this;
         }
 
+        /**
+         * New threads are created with the specified priority.
+         *
+         * @param priority the priority
+         *
+         * @return {@code this}
+         */
         public Builder priority(int priority) {
             Preconditions.checkArgument(priority >= Thread.MIN_PRIORITY ||
                                         priority <= Thread.MAX_PRIORITY);
@@ -93,11 +115,25 @@ public class NamedAndGroupedThreadFactory implements ThreadFactory {
             return this;
         }
 
+        /**
+         * New threads are daemonized.
+         *
+         * @param daemon if new threads should be daemonized
+         *
+         * @return {@code this}
+         */
         public Builder daemon(boolean daemon) {
             this.daemon = daemon;
             return this;
         }
 
+        /**
+         * The stack size of newly created threads.
+         *
+         * @param stackSize the stack size
+         *
+         * @return {@code this}
+         */
         public Builder stackSize(int stackSize) {
             Preconditions
                     .checkArgument(stackSize >= 0, "invalid stacksize: %d", stackSize);
@@ -105,11 +141,23 @@ public class NamedAndGroupedThreadFactory implements ThreadFactory {
             return this;
         }
 
+        /**
+         * The exception handler of new threads.
+         *
+         * @param eh the exception handler
+         *
+         * @return {@code this}
+         */
         public Builder exceptionHandler(UncaughtExceptionHandler eh) {
             this.exceptionHandler = Preconditions.checkNotNull(eh);
             return this;
         }
 
+        /**
+         * Creates the thread factory.
+         *
+         * @return the thread factory
+         */
         public ThreadFactory build() {
             if (name == null) {
                 name = "pool-" + poolNumber.getAndIncrement();

@@ -17,11 +17,17 @@
 package com.github.autermann.utils;
 
 /**
- * TODO JavaDoc
+ * Static variables to check the Java VM version.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
 public interface Java {
+    /**
+     * Indicates if this VM is running Java 1.6.
+     */
     boolean v6 = StandardSystemProperties.JAVA_VERSION.startsWith("1.6");
+    /**
+     * Indicates if this VM is running Java 1.7.
+     */
     boolean v7 = StandardSystemProperties.JAVA_VERSION.startsWith("1.7");
 }
